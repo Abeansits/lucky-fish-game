@@ -1,0 +1,211 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background: #e0f7fa;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.game-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+h1 {
+    color: #1565c0;
+    font-size: 2.5em;
+}
+
+.game-area {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    gap: 20px;
+}
+
+.rod-selection, .inventory {
+    background: #f5f5f5;
+    padding: 15px;
+    border-radius: 10px;
+    height: fit-content;
+}
+
+h2 {
+    color: #0d47a1;
+    margin-bottom: 15px;
+    font-size: 1.5em;
+}
+
+.fishing-area {
+    text-align: center;
+}
+
+.pond {
+    height: 300px;
+    background: linear-gradient(to bottom, #64b5f6, #1565c0);
+    border-radius: 10px;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.swimming-fish {
+    position: absolute;
+    font-size: 1.5em;
+    animation: swim var(--swim-duration) linear infinite;
+    transform: scaleX(var(--direction));
+}
+
+@keyframes swim {
+    from {
+        left: var(--start-pos);
+        top: var(--vertical-pos);
+    }
+    to {
+        left: var(--end-pos);
+        top: var(--vertical-pos);
+    }
+}
+
+.water-animation {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 200%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    animation: water-move 3s linear infinite;
+}
+
+@keyframes water-move {
+    0% { transform: translateX(-50%); }
+    100% { transform: translateX(0%); }
+}
+
+.fish-button {
+    padding: 15px 30px;
+    font-size: 1.2em;
+    background: #2196f3;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: transform 0.2s, background 0.2s;
+}
+
+.fish-button:hover {
+    background: #1976d2;
+    transform: scale(1.05);
+}
+
+.fish-button:active {
+    transform: scale(0.95);
+}
+
+.rods-container {
+    display: grid;
+    gap: 10px;
+}
+
+.rod-item {
+    padding: 10px;
+    background: white;
+    border: 2px solid #90caf9;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.rod-item:hover {
+    background: #e3f2fd;
+}
+
+.rod-item.selected {
+    border-color: #1565c0;
+    background: #bbdefb;
+}
+
+.fish-collection {
+    display: grid;
+    gap: 10px;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.fish-item {
+    padding: 10px;
+    background: white;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.fish-item.common { border-left: 4px solid #81c784; }
+.fish-item.uncommon { border-left: 4px solid #64b5f6; }
+.fish-item.rare { border-left: 4px solid #9575cd; }
+.fish-item.legendary { border-left: 4px solid #ffd700; }
+
+.eat-button {
+    margin-left: auto;
+    padding: 5px 10px;
+    background: #ff6b6b;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 0.9em;
+}
+
+.eat-button:hover {
+    background: #ff5252;
+    transform: scale(1.05);
+}
+
+.eat-button:active {
+    transform: scale(0.95);
+}
+
+.active-buffs {
+    margin-top: 15px;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.buff-item {
+    background: linear-gradient(135deg, #fff, #f0f0f0);
+    border: 2px solid;
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-size: 0.9em;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    animation: buffAppear 0.3s ease-out;
+}
+
+.buff-item.legendary { border-color: #ffd700; background: linear-gradient(135deg, #fff, #fff8e1); }
+.buff-item.rare { border-color: #9575cd; background: linear-gradient(135deg, #fff, #f3e5f5); }
+.buff-item.uncommon { border-color: #64b5f6; background: linear-gradient(135deg, #fff, #e3f2fd); }
+.buff-item.common { border-color: #81c784; background: linear-gradient(135deg, #fff, #e8f5e9); }
+
+@keyframes buffAppear {
+    from { transform: translateY(-20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+} 

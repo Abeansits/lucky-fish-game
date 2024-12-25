@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lucky Fish Game</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="game-container">
+        <header>
+            <h1>Lucky Fish Game 🎣</h1>
+            <div class="active-buffs" id="active-buffs">
+                <!-- Active buffs will be displayed here -->
+            </div>
+        </header>
+        
+        <div class="game-area">
+            <div class="rod-selection">
+                <h2>Select Your Rod</h2>
+                <div class="rods-container" id="rods-container">
+                    <!-- Rods will be added here dynamically -->
+                </div>
+            </div>
+
+            <div class="fishing-area">
+                <div class="pond" id="pond">
+                    <div class="water-animation"></div>
+                </div>
+                <button id="fish-button" class="fish-button">Cast Line!</button>
+            </div>
+
+            <div class="inventory">
+                <h2>Your Catches</h2>
+                <div class="fish-collection" id="fish-collection">
+                    <!-- Caught fish will appear here -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="game.js"></script>
+</body>
+</html> 
