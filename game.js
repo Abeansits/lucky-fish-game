@@ -67,6 +67,9 @@ function initGame() {
     renderInventory();
     renderBuffs();
     initializeSwimmingFish();
+    
+    // Start the buff timer update loop
+    setInterval(updateBuffTimers, 100); // Update every 100ms for smooth countdown
 }
 
 // Render fishing rods
@@ -213,9 +216,14 @@ function addBuff(fish) {
         name: fish.name,
         rarity: fish.rarity,
         emoji: fish.emoji,
+        startTime: Date.now(),
         endTime: Date.now() + (fish.buff.duration * 1000)
     };
     
+    // Remove any existing buff of the same type
+    activeBuffs = activeBuffs.filter(b => b.type !== buff.type);
+    
+    // Add the new buff
     activeBuffs.push(buff);
     renderBuffs();
     
@@ -230,8 +238,10 @@ function addBuff(fish) {
 function renderBuffs() {
     activeBuffsContainer.innerHTML = activeBuffs.map(buff => {
         const timeLeft = Math.ceil((buff.endTime - Date.now()) / 1000);
-        let buffText = '';
+        const totalDuration = (buff.endTime - buff.startTime) / 1000;
+        const progress = (timeLeft / totalDuration) * 100;
         
+        let buffText = '';
         switch(buff.type) {
             case 'luck':
                 buffText = `+${buff.value * 100}% Luck`;
@@ -245,13 +255,36 @@ function renderBuffs() {
         }
         
         return `
-            <div class="buff-item ${buff.rarity}">
-                <span>${buff.emoji}</span>
-                <span>${buffText}</span>
-                <span>(${timeLeft}s)</span>
+            <div class="buff-item ${buff.rarity}" data-buff-id="${buff.id}">
+                <div class="buff-progress" style="transform: scaleX(${progress / 100})"></div>
+                <div class="buff-content">
+                    <span>${buff.emoji}</span>
+                    <span>${buffText}</span>
+                    <span class="buff-timer">${timeLeft}s</span>
+                </div>
             </div>
         `;
     }).join('');
+}
+
+// Start the buff countdown update loop
+function updateBuffTimers() {
+    const buffElements = document.querySelectorAll('.buff-item');
+    buffElements.forEach(buffElement => {
+        const buffId = buffElement.dataset.buffId;
+        const buff = activeBuffs.find(b => b.id.toString() === buffId);
+        if (buff) {
+            const timeLeft = Math.ceil((buff.endTime - Date.now()) / 1000);
+            const totalDuration = (buff.endTime - buff.startTime) / 1000;
+            const progress = (timeLeft / totalDuration) * 100;
+            
+            const timerElement = buffElement.querySelector('.buff-timer');
+            const progressElement = buffElement.querySelector('.buff-progress');
+            
+            if (timerElement) timerElement.textContent = `${timeLeft}s`;
+            if (progressElement) progressElement.style.transform = `scaleX(${progress / 100})`;
+        }
+    });
 }
 
 // Add eat fish function
@@ -393,7 +426,7 @@ function createSwimmingFish() {
         --end-pos: ${goingRight ? 'calc(100% + 50px)' : '-50px'};
         --vertical-pos: ${verticalPos}%;
         --swim-duration: ${duration}ms;
-        --direction: ${goingRight ? 1 : -1};
+        --direction: ${goingRight ? -1 : 1};
     `;
     
     // Remove fish when animation ends
