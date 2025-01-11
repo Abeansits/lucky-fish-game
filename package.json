@@ -1,0 +1,23 @@
+{
+  "name": "lucky-fish-game",
+  "version": "1.0.0",
+  "description": "A fun, browser-based fishing game where you catch different types of fish, collect them, and gain special abilities by eating them!",
+  "main": "game.js",
+  "type": "module",
+  "scripts": {
+    "start": "npx serve",
+    "dev": "npx serve"
+  },
+  "keywords": [
+    "game",
+    "fishing",
+    "browser-game",
+    "javascript",
+    "html5"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@vercel/speed-insights": "^1.0.0"
+  }
+}
